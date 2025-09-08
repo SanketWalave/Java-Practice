@@ -1,0 +1,22 @@
+class Solution_58 {
+    public int lengthOfLastWord(String s) {
+        int end=s.length()-1;
+        while(end>=0 && s.charAt(end)==' ')
+        {
+            end--;
+        }
+        int start=end;
+        while(start>=0 && s.charAt(start)!=' ')
+        {
+           start--;
+        }
+        return end-start;
+    }
+}
+public class LastwordLength_10_4 {
+    public static void main(String[] args) {
+        Solution_58 s=new Solution_58();
+        int ans=s.lengthOfLastWord("sanket walabee fghbjnk walave     sdfghjwert  ");
+        System.out.println(ans);
+    }
+}

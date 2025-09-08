@@ -1,0 +1,323 @@
+mysql> create table books(book_id int(10)primary key,tital varchar(100),author varchar(100),catagory varchar(50),price int(10),quantity int(10));
+Query OK, 0 rows affected, 3 warnings (0.06 sec)
+
+mysql> create table members(member_id int(10)primary key,name varchar(150),email varchar(100) ,join_date date);
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> create table issueRecords (issu_id int(10)primary key,book_id int(10),foreign key(book_id)references books(book_id)on delete set null on update cascade,member_id int(10),foreign key(member_id)references memebers(member_id)on delete set null on update cascade);
+ERROR 1824 (HY000): Failed to open the referenced table 'memebers'
+mysql> create table issueRecords (issu_id int(10)primary key,book_id int(10),foreign key(book_id)references books(book_id)on delete set null on update cascade,member_id int(10),foreign key(member_id)references members(member_id)on delete set null on update cascade);
+Query OK, 0 rows affected, 3 warnings (0.08 sec)
+
+mysql> insert into books values(1,'data science','sanket walave','science',100,30);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into books values(1,'m1','sane gurugi','math',100,20);
+ERROR 1062 (23000): Duplicate entry '1' for key 'books.PRIMARY'
+mysql> insert into books values(2,'m1','sane gurugi','math',100,20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into books values(3,'histry','narendr modi','histry',300,25);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into books values(4,' core java ','giri sir','language',230,50);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into books values(5,' sql ','atul sir','database',130,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from books;
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
+|       2 | m1           | sane gurugi   | math     |   100 |       20 |
+|       3 | histry       | narendr modi  | histry   |   300 |       25 |
+|       4 |  core java   | giri sir      | language |   230 |       50 |
+|       5 |  sql         | atul sir      | database |   130 |       10 |
++---------+--------------+---------------+----------+-------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into members values(1,'sanket','sanket@123','01-01-2023');
+ERROR 1292 (22007): Incorrect date value: '01-01-2023' for column 'join_date' at row 1
+mysql> insert into members values(1,'sanket','sanket@123','01/01/2023');
+ERROR 1292 (22007): Incorrect date value: '01/01/2023' for column 'join_date' at row 1
+mysql> insert into members values(1,'sanket','sanket@123',"01-01-2023");
+ERROR 1292 (22007): Incorrect date value: '01-01-2023' for column 'join_date' at row 1
+mysql> insert into members values(1,'sanket','sanket@123',"01/01/2023");
+ERROR 1292 (22007): Incorrect date value: '01/01/2023' for column 'join_date' at row 1
+mysql> insert into members values(1,'sanket','sanket@123',"2023-01-01");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into members values(2,'pravin','pravin@123',"2023-05-01");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into members values(3,'kunal','kunal@123',"2024-05-02");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into members values(4,'tapan','tapan@123',"2020-05-12");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into members values(6,'saurabh','saurabh@123',"2022-10-12");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from members;
++-----------+---------+-------------+------------+
+| member_id | name    | email       | join_date  |
++-----------+---------+-------------+------------+
+|         1 | sanket  | sanket@123  | 2023-01-01 |
+|         2 | pravin  | pravin@123  | 2023-05-01 |
+|         3 | kunal   | kunal@123   | 2024-05-02 |
+|         4 | tapan   | tapan@123   | 2020-05-12 |
+|         6 | saurabh | saurabh@123 | 2022-10-12 |
++-----------+---------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql>
+ysql> select *from books;
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
+|       2 | m1           | sane gurugi   | math     |   100 |       20 |
+|       3 | histry       | narendr modi  | histry   |   300 |       25 |
+|       4 |  core java   | giri sir      | language |   230 |       50 |
+|       5 |  sql         | atul sir      | database |   130 |       10 |
++---------+--------------+---------------+----------+-------+----------+
+5 rows in set (0.00 sec)
+mysql> insert into issueRecords values(1,1,1,'2025-03-21','2025-04-04');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into issueRecords values(2,1,2,'2025-03-22','2025-03-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into issueRecords values(3,1,3,'2025-03-22','2025-03-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into issueRecords values(4,3,3,'2025-03-22','2025-03-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into issueRecords values(5,2,3,'2024-12-22','2024-03-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into issueRecords values(6,2,3,'2024-10-22','2024-11-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *
+    -> from issuerecords;
++---------+---------+-----------+------------+-------------+
+| issu_id | book_id | member_id | issu_date  | return_date |
++---------+---------+-----------+------------+-------------+
+|       1 |       1 |         1 | 2025-03-21 | 2025-04-04  |
+|       2 |       1 |         2 | 2025-03-22 | 2025-03-30  |
+|       3 |       1 |         3 | 2025-03-22 | 2025-03-30  |
+|       4 |       3 |         3 | 2025-03-22 | 2025-03-30  |
+|       5 |       2 |         3 | 2024-12-22 | 2024-03-30  |
+|       6 |       2 |         3 | 2024-10-22 | 2024-11-30  |
++---------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+
+=======================================================
+mysql> select *from books;
++---------+----------------+---------------+----------+-------+----------+
+| book_id | tital          | author        | catagory | price | quantity |
++---------+----------------+---------------+----------+-------+----------+
+|       1 | data science   | sanket walave | science  |   100 |       30 |
+|       2 | m1             | sane gurugi   | math     |   100 |       20 |
+|       3 | histry         | narendr modi  | histry   |   300 |       25 |
+|       4 |  core java     | giri sir      | language |   230 |       50 |
+|       5 |  sql           | atul sir      | database |   130 |       10 |
+|       6 | social science | dr karpe      | science  |   500 |        9 |
++---------+----------------+---------------+----------+-------+----------+
+6 rows in set (0.00 sec)
+mysql> select *from members;
++-----------+---------+-------------+------------+
+| member_id | name    | email       | join_date  |
++-----------+---------+-------------+------------+
+|         1 | sanket  | sanket@123  | 2023-01-01 |
+|         2 | pravin  | pravin@123  | 2023-05-01 |
+|         3 | kunal   | kunal@123   | 2024-05-02 |
+|         4 | tapan   | tapan@123   | 2020-05-12 |
+|         6 | saurabh | saurabh@123 | 2022-10-12 |
++-----------+---------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select *from issuerecords;
++---------+---------+-----------+------------+-------------+
+| issu_id | book_id | member_id | issu_date  | return_date |
++---------+---------+-----------+------------+-------------+
+|       1 |       1 |         1 | 2025-03-21 | 2025-04-04  |
+|       2 |       1 |         2 | 2025-03-22 | 2025-03-30  |
+|       3 |       1 |         3 | 2025-03-22 | 2025-03-30  |
+|       4 |       3 |         3 | 2025-03-22 | 2025-03-30  |
+|       5 |       2 |         3 | 2024-12-22 | 2024-03-30  |
+|       6 |       2 |         3 | 2024-10-22 | 2024-11-30  |
++---------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql>
+
+Q1 
+==========================================
+mysql> select *from books where tital like "data%";
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
++---------+--------------+---------------+----------+-------+----------+
+1 row in set (0.00 sec)
+
+Q2
+==============================================
+mysql> select *from books where catagory='science';
++---------+----------------+---------------+----------+-------+----------+
+| book_id | tital          | author        | catagory | price | quantity |
++---------+----------------+---------------+----------+-------+----------+
+|       1 | data science   | sanket walave | science  |   100 |       30 |
+|       6 | social science | dr karpe      | science  |   500 |        9 |
++---------+----------------+---------------+----------+-------+----------+
+2 rows in set (0.00 sec)
+
+Q3
+====================================
+mysql> select catagory,sum(quantity) from books group by catagory having sum(quantity)>10;
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
+|       2 | m1           | sane gurugi   | math     |   100 |       20 |
+|       3 | histry       | narendr modi  | histry   |   300 |       25 |
+|       4 |  core java   | giri sir      | language |   230 |       50 |
++---------+--------------+---------------+----------+-------+----------+
+4 rows in set (0.00 sec)
+
+Q4
+=================================================================
+mysql> select i.member_id,m.name,count(i.book_id) from issuerecords i inner join members m on m.member_id=i.member_id group by i.member_id having count(i.book_id)>2;
++-----------+-------+------------------+
+| member_id | name  | count(i.book_id) |
++-----------+-------+------------------+
+|         3 | kunal |                4 |
++-----------+-------+------------------+
+1 row in set (0.00 sec)
+
+Q6
+========================
+mysql> select * from books where quantity =(select min(quantity)from books);
++---------+----------------+----------+----------+-------+----------+
+| book_id | tital          | author   | catagory | price | quantity |
++---------+----------------+----------+----------+-------+----------+
+|       6 | social science | dr karpe | science  |   500 |        9 |
++---------+----------------+----------+----------+-------+----------+
+1 row in set (0.00 sec)
+
+Q7
+=============================================
+mysql> select *from members where member_id in(select member_id from issuerecords);
++-----------+--------+------------+------------+
+| member_id | name   | email      | join_date  |
++-----------+--------+------------+------------+
+|         1 | sanket | sanket@123 | 2023-01-01 |
+|         2 | pravin | pravin@123 | 2023-05-01 |
+|         3 | kunal  | kunal@123  | 2024-05-02 |
++-----------+--------+------------+------------+
+3 rows in set (0.00 sec)
+
+Q8
+======================================
+mysql> select *from books where book_id not in(select book_id from issuerecords);
++---------+----------------+----------+----------+-------+----------+
+| book_id | tital          | author   | catagory | price | quantity |
++---------+----------------+----------+----------+-------+----------+
+|       4 |  core java     | giri sir | language |   230 |       50 |
+|       5 |  sql           | atul sir | database |   130 |       10 |
+|       6 | social science | dr karpe | science  |   500 |        9 |
++---------+----------------+----------+----------+-------+----------+
+3 rows in set (0.00 sec)
+
+
+Q9
+=================================================
+mysql> create view bookavalable as select *from books;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select bookavalable;
+ERROR 1054 (42S22): Unknown column 'bookavalable' in 'field list'
+mysql> select *from bookavalable;
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
+|       2 | m1           | sane gurugi   | math     |   100 |       20 |
+|       3 | histry       | narendr modi  | histry   |   300 |       25 |
+|       4 |  core java   | giri sir      | language |   230 |       50 |
+|       5 |  sql         | atul sir      | database |   130 |       10 |
++---------+--------------+---------------+----------+-------+----------+
+5 rows in set (0.00 sec)
+
+
+Q11
+==================================
+ create procedure shoowBooks()
+     begin
+    select *from books where book_id in(select book_id from  issuerecords);
+     end;
+     //
+	 
+	 mysql> call shoowbooks;
+    -> ;//
++---------+--------------+---------------+----------+-------+----------+
+| book_id | tital        | author        | catagory | price | quantity |
++---------+--------------+---------------+----------+-------+----------+
+|       1 | data science | sanket walave | science  |   100 |       30 |
+|       2 | m1           | sane gurugi   | math     |   100 |       20 |
+|       3 | histry       | narendr modi  | histry   |   300 |       25 |
++---------+--------------+---------------+----------+-------+----------+
+3 rows in set (0.00 sec)
+
+
+Q10
+====================================
+
+	create procedure getBooksbyId(id int)
+     begin
+    select *from books where book_id=id;
+     end;
+     //
+	 
+	 mysql> call getBooksbyid(2);//
++---------+-------+-------------+----------+-------+----------+
+| book_id | tital | author      | catagory | price | quantity |
++---------+-------+-------------+----------+-------+----------+
+|       2 | m1    | sane gurugi | math     |   100 |       20 |
++---------+-------+-------------+----------+-------+----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Q9
+===============================================
+create procedure addNewMember(id int,name varchar(50),email varchar(100),date date)
+begin
+insert into members values(id,name,email,date);
+end;
+//
+	 mysql>  call addNewMember(7,'aniket','ani@2345','2020-01-01');//
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from members;
+    -> //
++-----------+---------+-------------+------------+
+| member_id | name    | email       | join_date  |
++-----------+---------+-------------+------------+
+|         1 | sanket  | sanket@123  | 2023-01-01 |
+|         2 | pravin  | pravin@123  | 2023-05-01 |
+|         3 | kunal   | kunal@123   | 2024-05-02 |
+|         4 | tapan   | tapan@123   | 2020-05-12 |
+|         6 | saurabh | saurabh@123 | 2022-10-12 |
+|         7 | aniket  | ani@2345    | 2020-01-01 |
++-----------+---------+-------------+------------+
+6 rows in set (0.00 sec)
+
+mysql>

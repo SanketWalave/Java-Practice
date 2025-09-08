@@ -1,0 +1,21 @@
+import java.util.*;
+public class StudMarks
+{
+ public static void main(String x[])
+  {
+ Scanner xyz = new Scanner(System.in);
+   int s1,s2,s3,s4,s5,total;
+   float percentage;
+   System.out.println("enter the marks of five subjects  ");
+  s1=xyz.nextInt();   
+  s2=xyz.nextInt();   
+  s3=xyz.nextInt();   
+  s4=xyz.nextInt();   
+  s5=xyz.nextInt();
+  total=s1+s2+s3+s4+s5;
+  System.out.println("total marks   -->" + total);
+  percentage=(total/500)*100;
+  System.out.println("percentage is-->" + percentage);
+  }
+  }
+  

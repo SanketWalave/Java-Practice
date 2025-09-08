@@ -1,0 +1,440 @@
+create table college(college_id int primary key,college_name varchar(100),location varchar(100));
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> create table departement(dept_id int primary key,dept_name varchar(100),college_id int ,foreign key(college_id)references college(college_id)on delete set null on update cascade);
+Query OK, 0 rows affected (0.09 sec)
+
+
+mysql> create table student(student_id int primary key,student_name varchar(100),dept_id int ,foreign key(dept_id)references departement(dept_id)on delete set null on update cascade,age int,course_id int ,foreign key(course_id)references course(course_id)on delete set null on update cascade,age int);
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> create table course(course_id int primary key,course_name varchar(100));
+Query OK, 0 rows affected (0.05 sec)
+
+insert into student values(1,'sanket',1,1,22);
+ insert into student values(2,'atul',2,2,22);
+insert into student values(3,'atul',3,6,22);
+ insert into student values(4,'saurabh',1,5,22);
+ insert into student values(5,'saurabh',3,1,22);
+ insert into student values(6,'aniket',2,2,22);
+ insert into student values(7,'karpe',1,2,22);
+ insert into student values(8,'khatal',1,2,22);
+ insert into student values(9,'sanket',3,2,22);
+ 
+ mysql> select *from college;
++------------+-------------------+-----------+
+| college_id | college_name      | location  |
++------------+-------------------+-----------+
+|          1 | sangamner college | sangamner |
+|          2 | nasik college     | nasic     |
+|          3 | akola college     | akola     |
+|          4 | nagar college     | nagar     |
+|          6 | pune college      | pune      |
++------------+-------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select *from departement;
++---------+-----------+------------+
+| dept_id | dept_name | college_id |
++---------+-----------+------------+
+|       1 | computer  |          1 |
+|       2 | computer  |          2 |
+|       3 | botny     |          2 |
+|       4 | botny     |          4 |
+|       5 | chem      |          3 |
+|       6 | chem      |          6 |
++---------+-----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select *from course;
++-----------+-------------+
+| course_id | course_name |
++-----------+-------------+
+|         1 | java        |
+|         2 | php         |
+|         3 | h20         |
+|         4 | plants      |
+|         5 | fihb        |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select *from student;
++------------+--------------+---------+-----------+------+
+| student_id | student_name | dept_id | course_id | age  |
++------------+--------------+---------+-----------+------+
+|          1 | sanket       |       1 |         1 |   22 |
+|          2 | atul         |       2 |         2 |   22 |
+|          3 | atul         |       3 |         2 |   22 |
+|          4 | saurabh      |       1 |         5 |   22 |
+|          5 | saurabh      |       3 |         1 |   22 |
+|          6 | aniket       |       2 |         2 |   22 |
+|          7 | karpe        |       1 |         2 |   22 |
+|          8 | khatal       |       1 |         2 |   22 |
+|          9 | sanket       |       3 |         2 |   22 |
++------------+--------------+---------+-----------+------+
+
+================== 1 ===================
+mysql> select s.student_name,c.college_name,d.dept_name from student s join departement d on s.dept_id=d.dept_id join college c on c.college_id=d.college_id;
++--------------+-------------------+-----------+
+| student_name | college_name      | dept_name |
++--------------+-------------------+-----------+
+| sanket       | sangamner college | computer  |
+| saurabh      | sangamner college | computer  |
+| karpe        | sangamner college | computer  |
+| khatal       | sangamner college | computer  |
+| atul         | nasik college     | computer  |
+| aniket       | nasik college     | computer  |
+| atul         | nasik college     | botny     |
+| saurabh      | nasik college     | botny     |
+| sanket       | nasik college     | botny     |
++--------------+-------------------+-----------+
+9 rows in set (0.01 sec)
+
+====================== 2 ==================
+mysql> select s.dept_id,d.dept_name,count(s.student_id) from student s join departement d on d.dept_id=s.dept_id group by s.dept_id;
++---------+-----------+---------------------+
+| dept_id | dept_name | count(s.student_id) |
++---------+-----------+---------------------+
+|       1 | computer  |                   4 |
+|       2 | computer  |                   2 |
+|       3 | botny     |                   3 |
++---------+-----------+---------------------+
+3 rows in set (0.28 sec)
+
+============= 3 ==================
+
+
+============= 4 ================
+mysql> select course.course_name,s.student_name,d.dept_name,c.college_name from departement d join  student  s on  d.dept_id=s.dept_id join course on course.course_id=s.course_id join college c on c.college_id=d.college_id;
++-------------+--------------+-----------+-------------------+
+| course_name | student_name | dept_name | college_name      |
++-------------+--------------+-----------+-------------------+
+| java        | sanket       | computer  | sangamner college |
+| java        | saurabh      | botny     | nasik college     |
+| php         | atul         | computer  | nasik college     |
+| php         | atul         | botny     | nasik college     |
+| php         | aniket       | computer  | nasik college     |
+| php         | karpe        | computer  | sangamner college |
+| php         | khatal       | computer  | sangamner college |
+| php         | sanket       | botny     | nasik college     |
+| fihb        | saurabh      | computer  | sangamner college |
++-------------+--------------+-----------+-------------------+
+9 rows in set (0.00 sec)
+
+
+============= 5 ============
+
+
+ 
+============= 6 =============
+mysql> select s.dept_id,d.dept_name,count(s.student_id) from student s join departement d on d.dept_id=s.dept_id group by s.dept_id;
++---------+-----------+---------------------+
+| dept_id | dept_name | count(s.student_id) |
++---------+-----------+---------------------+
+|       1 | computer  |                   4 |
+|       2 | computer  |                   2 |
+|       3 | botny     |                   3 |
++---------+-----------+---------------------+
+3 rows in set (0.00 sec)
+
+
+============ 10 =================
+mysql> select c.course_name,s.student_name,co.college_name,co.location from course c join student s on s.course_id=c.course_id join departement d on d.dept_id=s.dept_id join college co on co.college_id=d.college_id;
++-------------+--------------+-------------------+-----------+
+| course_name | student_name | college_name      | location  |
++-------------+--------------+-------------------+-----------+
+| java        | sanket       | sangamner college | sangamner |
+| java        | saurabh      | nasik college     | nasic     |
+| php         | atul         | nasik college     | nasic     |
+| php         | atul         | nasik college     | nasic     |
+| php         | aniket       | nasik college     | nasic     |
+| php         | karpe        | sangamner college | sangamner |
+| php         | khatal       | sangamner college | sangamner |
+| php         | sanket       | nasik college     | nasic     |
+| fihb        | saurabh      | sangamner college | sangamner |
++-------------+--------------+-------------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql>
+
+
+=========== 13 =========
+mysql> Create  view StudentDepartmentView  as  select s.student_name,s.age,c.college_name,d.dept_name from student s join departement d on s.dept_id=d.dept_id join college c on c.college_id=d.college_id;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from StudentDepartmentView;
++--------------+------+-------------------+-----------+
+| student_name | age  | college_name      | dept_name |
++--------------+------+-------------------+-----------+
+| sanket       |   22 | sangamner college | computer  |
+| saurabh      |   22 | sangamner college | computer  |
+| karpe        |   22 | sangamner college | computer  |
+| khatal       |   22 | sangamner college | computer  |
+| atul         |   22 | nasik college     | computer  |
+| aniket       |   22 | nasik college     | computer  |
+| sanket       |   33 | nasik college     | computer  |
+| atul         |   22 | nasik college     | botny     |
+| saurabh      |   22 | nasik college     | botny     |
+| sanket       |   22 | nasik college     | botny     |
++--------------+------+-------------------+-----------+
+10 rows in set (0.07 sec)
+
+mysql>
+
+============= 14 =================
+mysql>  Create  view CollegeCourseSummary as  select co.college_name,s.student_name,c.course_name from course c join student s on s.course_id=c.course_id join departement d on d.dept_id=s.dept_id join college co on co.college_id=d.college_id;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from CollegeCourseSummary;
++-------------------+--------------+-------------+
+| college_name      | student_name | course_name |
++-------------------+--------------+-------------+
+| sangamner college | sanket       | java        |
+| nasik college     | atul         | php         |
+| nasik college     | atul         | php         |
+| sangamner college | saurabh      | fihb        |
+| nasik college     | saurabh      | java        |
+| nasik college     | aniket       | php         |
+| sangamner college | karpe        | php         |
+| sangamner college | khatal       | php         |
+| nasik college     | sanket       | php         |
+| nasik college     | sanket       | php         |
++-------------------+--------------+-------------+
+10 rows in set (0.00 sec)
+
+================ 17 ==================
+mysql>  create procedure StudDeptByLocation(locat varchar(100))
+    ->      begin
+    ->      select s.student_id,s.student_name,s.age,c.college_name from student s join departement d  on d.dept_id=s.dept_id join college c on c.college_id=d.college_id where location=locat;
+    ->      end;
+    ->      //
+Query OK, 0 rows affected (0.03 sec)
+
+=============== 18 ==============
+		 mysql> create procedure course_count()
+    ->           begin
+    -> select s.course_id,c.course_name,count(s.student_id) from student s  join course c on c.course_id=s.course_id group by s.course_id;
+    ->           end;
+    ->           //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call course_count;//
++-----------+-------------+---------------------+
+| course_id | course_name | count(s.student_id) |
++-----------+-------------+---------------------+
+|         1 | java        |                   2 |
+|         2 | php         |                   7 |
+|         5 | fihb        |                   1 |
++-----------+-------------+---------------------+
+3 rows in set (0.00 sec)
+
+========================================================================
+
+
+
+mysql> call StudDeptByLocation('sangamner');//
++------------+--------------+------+-------------------+
+| student_id | student_name | age  | college_name      |
++------------+--------------+------+-------------------+
+|          1 | sanket       |   22 | sangamner college |
+|          4 | saurabh      |   22 | sangamner college |
+|          7 | karpe        |   22 | sangamner college |
+|          8 | khatal       |   22 | sangamner college |
++------------+--------------+------+-------------------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+============== 19 =====================
+mysql> create function perfectNum(num int)
+    ->   returns boolean
+    ->        deterministic
+    ->     begin
+    ->     declare flag boolean default false;
+    ->      declare i int;
+    ->      declare sum int;
+    ->  set i=1;
+    ->  set sum=0;
+    ->  while i<num do
+    ->    if num%i=0 then
+    ->      set sum=sum+i;
+    -> end if;
+    ->   set i=i+1;
+    ->   end while;
+    ->   if sum=num then
+    ->     set flag=true;
+    -> end if;
+    -> return flag;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select perfectNum(6);//
++---------------+
+| perfectNum(6) |
++---------------+
+|             1 |
++---------------+
+1 row in set (0.07 sec)
+
+=============== 20 ================
+mysql> create function strongnum(num int)
+    ->   returns boolean
+    ->        deterministic
+    ->     begin
+    ->     declare flag boolean default false;
+    ->      declare i int;
+    ->      declare temp int;
+    ->      declare sum int;
+    ->      declare rem int;
+    ->      declare power int;
+    ->  set i=1;
+    ->  set rem=1;
+    ->  set power=1;
+    ->  set temp=num;
+    ->  set sum=0;
+    ->     while num>0 do
+    ->         set rem=num%10;
+    ->
+    ->         set i=1;
+    ->         set power=1;
+    ->         while i<=rem do
+    ->            set power=power*i;
+    ->        set i=i+1;
+    ->      end while;
+    ->
+    ->      set sum=sum+power;
+    ->
+    ->      set num=num div 10;
+    ->
+    ->      end while;
+    ->   if sum=temp then
+    ->     set flag=true;
+    -> end if;
+    -> return flag;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select strongnum(145);//
++----------------+
+| strongnum(145) |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+=======================================
+
+
+	  create procedure StudDeptByLocation(locat varchar(100))
+     begin
+     select s.student_id,s.student_name,s.age,c.college_name from student s join departement d  on d.dept_id=s.dept_id join college c on c.college_id=d.college_id where location=locat;
+     end;
+     //
+	   
+	 
+	 create function perfectNum(num int)
+	  returns boolean
+       deterministic
+    begin
+    declare flag boolean default false;
+     declare i int;
+     declare sum int;
+	 set i=1;
+	 set sum=0;
+	 while i<num do
+	   if num%i=0 then
+	     set sum=sum+i;
+		end if;
+	  set i=i+1;
+	  end while;
+	  if sum=num then
+	    set flag=true;
+		end if;
+		return flag;
+		end 
+		//
+		
+		
+		create function strongnum(num int)
+	  returns boolean
+       deterministic
+    begin
+    declare flag boolean default false;
+     declare i int;
+     declare temp int;
+     declare sum int;
+     declare rem int;
+     declare power int;
+	 set i=1;
+	 set rem=1;
+	 set power=1;
+	 set temp=num;
+	 set sum=0;
+	    while num>0 do
+        set rem=num%10;
+    
+        set i=1;
+        set power=1;
+        while i<=rem do
+           set power=power*i;
+       set i=i+1;
+     end while;
+    
+     set sum=sum+power;
+    
+     set num=num div 10;
+    
+     end while;
+	  if sum=temp then
+	    set flag=true;
+		end if;
+		return flag;
+		end 
+		//
+		
+		
+		
+		create procedure strongnum(num int)
+    begin
+     declare i int;
+     declare sum int;
+     declare rem int;
+     declare power int;
+	 set i=1;
+	 set rem=1;
+	 set power=1;
+	 set sum=0;
+	    while num>0 do
+        set rem=num%10;
+		select rem;
+        set i=1;
+        set power=1;
+        while i<=rem do
+           set power=power*i;
+       set i=i+1;
+     end while;
+    select power;
+     set sum=sum+power;
+    select sum;
+     set num=num div 10;
+    
+     end while;
+	  if sum=num then
+	    select perfectNum;
+		end if;
+		end 
+		//
+		
+		  @Override
+//    protected Square_7_5 cloneSq() throws CloneNotSupportedException {
+//        Object obj=this.clone();
+//        return (Square_7_5) obj;
+//    }
+		<input type="text" id="email" name="email" onkeyup="emailValidation(this.value)">
+		const message = document.getElementById("message");
+                 message.style.color="blue";

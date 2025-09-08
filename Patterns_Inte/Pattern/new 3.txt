@@ -1,0 +1,21 @@
+import java.util.*;
+class Employee
+{
+	int Id; 
+	String name;
+	int totalWorking;
+	int salary;
+	int overtime;
+	Employee(int Id , String name , int totalWorking,int salary,int overtime)
+	{
+		this.Id = Id;
+		this.name = name;
+		this.totalWorking = totalWorking;
+		this.salary = salary;
+		this.overtime = overtime;
+	}
+	void setEmployee(Employee emp[])
+	{
+		
+	}
+}

@@ -1,0 +1,30 @@
+import java.util.*;
+public class ReverseNumApp
+{
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter number");
+		int num=sc.nextInt();
+		int digit=0,count=0;
+		int temp=num;
+		for(;num!=0;num/=10)
+		{
+			digit=num%10;
+			count++;
+		}
+		//System.out.println("count is--->"+count);
+		int x =1;
+		for(int i=1;i<count;i++)
+		{
+			
+			x=x*10;
+			
+		}	
+		//System.out.println(x);
+		num=temp;
+		int first=num/x;
+		int last=num%10;
+		System.out.print("first is -->"+first+"\nlast is---->"+last);
+	}
+}
