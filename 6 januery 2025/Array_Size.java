@@ -39,3 +39,10 @@ public class Array_Size
 		}
 	}
 }
+
+/* git init
+git add .
+git commit -m "Initial commit - Hibernate Practice Project"
+git branch -M main
+git remote add origin https://github.com/SanketWalave/Java-Practice.git
+git push -u origin main*/
