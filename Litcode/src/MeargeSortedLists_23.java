@@ -11,11 +11,3 @@ public class MeargeSortedLists_23 {
 }
 
 
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int val) {
-        this.val = val;
-    }
-}
